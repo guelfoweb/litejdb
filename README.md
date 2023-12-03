@@ -15,85 +15,98 @@ from litejdb import LiteJDB
 student_database = LiteJDB('Student', silent=True) # silent is False by default
 ```
 
-#### Add record to db
+#### add_record
 ```python
+# Add a new record to the database
 student_database.add_record(first_name='John', last_name='Doe', age=18, average_grade=85.5)
 student_database.add_record(first_name='Jane', last_name='Smith', age=17, average_grade=92.3)
 ```
 
-#### Save database
+#### save_to_file
 ```python
-# Save to JSON file
+# Save the database to a JSON file
 student_database.save_to_file('student_database.json')
 ```
 
-#### Load database
+#### load_from_file
 ```python
-# Load from JSON file
+# Load the database from a JSON file
 student_database.load_from_file('student_database.json')
 ```
 
-#### Search in field
+#### search_records
 ```python
+# Search for records with a specific field value
 search_results = student_database.search_records('age', 18)
+
 print(f"Search results for age 18: {search_results}")
 ```
 `Search results for age 18: [('1', {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5})]`
 
 
-#### Print fields
+#### fields
 ```python
+# Show all fields
 print (student_database.fields)
 ```
 `['first_name', 'last_name', 'age', 'average_grade']`
 
-#### Print records
+#### records
 ```python
+# Show all records
 print (student_database.records)
 ```
 `{'1': {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5}, '2': {'first_name': 'Jane', 'last_name': 'Smith', 'age': 17, 'average_grade': 92.3}}`
 
 
-#### First ID
+#### first_id
 ```python
+# Get first ID
 print (student_database.first_id())
 ```
 `1`
 
-#### Last ID
+#### last_id
 ```python
+# Get last ID
 print (student_database.last_id())
 ```
 `2`
 
-#### Memory usage
+#### memory_usage
 ```python
+# # Get object size in byte
 print (student_database.memory_usage())
 ```
 `48`
 
-#### Add field
+#### add_field
 ```python
+# Add a new field to the database for all existing records with an optional default value
 student_database.add_field('email', default_value='')
 ```
 
-### Get record by ID
+### get_record
 ```python
+# Retrieve a record by its ID
 print (student_database.get_record('1'))
 ```
 `{'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5, 'email': ''}`
 
-### Update record
+### update_record
 ```python
+# Update the value of a field for a specific record
 student_database.update_record('1', 'email', 'info@domain.com')
 ```
 
-### Remove field
+### remove_field
 ```python
+# Remove a field from the database for all existing records
 student_database.remove_field('email')
 ```
 
-### Delete record
+### delete_record
 ```python
+# Delete a record by its ID
 student_database.delete_record('1')
 ```
