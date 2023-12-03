@@ -1,0 +1,2 @@
+# litejdb
+Lite JSON Database
