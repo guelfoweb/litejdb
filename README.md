@@ -37,11 +37,9 @@ student_database.load_from_file('student_database.json')
 #### search_records
 ```python
 # Search for records with a specific field value
-search_results = student_database.search_records('age', 18)
-
-print(f"Search results for age 18: {search_results}")
+print (student_database.search_records('age', 18))
 ```
-`Search results for age 18: [('1', {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5})]`
+`[('1', {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5})]`
 
 
 #### fields
