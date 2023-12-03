@@ -75,7 +75,7 @@ print (student_database.last_id())
 
 #### memory_usage
 ```python
-# # Get object size in byte
+# Get object size in byte
 print (student_database.memory_usage())
 ```
 `48`
