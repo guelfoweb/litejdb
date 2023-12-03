@@ -38,55 +38,39 @@ student_database.load_from_file('student_database.json')
 search_results = student_database.search_records('age', 18)
 print(f"Search results for age 18: {search_results}")
 ```
-*output*
-```bash
-Search results for age 18: [('1', {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5})]
-```
+`Search results for age 18: [('1', {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5})]`
+
 
 #### Print fields
 ```python
 print (student_database.fields)
 ```
-*output*
-```bash
-['first_name', 'last_name', 'age', 'average_grade']
-```
+`['first_name', 'last_name', 'age', 'average_grade']`
 
 #### Print records
 ```python
 print (student_database.records)
 ```
-*output*
-```bash
-{'1': {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5}, '2': {'first_name': 'Jane', 'last_name': 'Smith', 'age': 17, 'average_grade': 92.3}}
-```
+`{'1': {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5}, '2': {'first_name': 'Jane', 'last_name': 'Smith', 'age': 17, 'average_grade': 92.3}}`
+
 
 #### First ID
 ```python
 print (student_database.first_id())
 ```
-*output*
-```bash
-1
-```
+`1`
 
 #### Last ID
 ```python
 print (student_database.last_id())
 ```
-*output*
-```bash
-2
-```
+`2`
 
 #### Memory usage
 ```python
 print (student_database.memory_usage())
 ```
-*output*
-```bash
-48
-```
+`48`
 
 #### Add field
 ```python
@@ -97,10 +81,7 @@ student_database.add_field('email', default_value='')
 ```python
 print (student_database.get_record('1'))
 ```
-*output*
-```bash
-{'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5, 'email': ''}
-```
+`{'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5, 'email': ''}`
 
 ### Update record
 ```python
