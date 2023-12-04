@@ -14,7 +14,7 @@ uncomplicated yet powerful database solution.
 
 class LiteJDB:
     # LiteJDB.version
-    version = "0.0.1"
+    version = "0.1.0"
 
     def __init__(self, entity_name, silent=False):
         # Initialize a generic database with a given entity name
