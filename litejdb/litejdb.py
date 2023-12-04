@@ -1,5 +1,6 @@
 import json
 import sys
+import re
 
 """
 LiteJDB (Lite JSON Database) by Gianni Amato (guelfoweb)
@@ -88,10 +89,12 @@ class LiteJDB:
 
     def get_record(self, record_id):
         # Retrieve a record by its ID
+        record_id = str(record_id)
         return self.records.get(record_id, None)
 
     def update_record(self, record_id, field, new_value):
         # Update the value of a field for a specific record
+        record_id = str(record_id)
         if record_id in self.records and field in self.fields:
             # Check and enforce the data type for the new field value
             self._check_field_type(field, new_value)
@@ -104,6 +107,7 @@ class LiteJDB:
 
     def delete_record(self, record_id):
         # Delete a record by its ID
+        record_id = str(record_id)
         if record_id in self.records:
             del self.records[record_id]
             if not self.silent:
@@ -112,13 +116,76 @@ class LiteJDB:
             if not self.silent:
                 print(f"{self.entity_name} with ID {record_id} does not exist.")
 
-    def search_records(self, field, value):
-        # Search for records with a specific field value
+    def filter_records(self, filters):
+        """
+        Filter records based on multiple fields and their values.
+
+        Parameters:
+        - filters (dict): A dictionary where keys are field names and values are dictionaries
+          containing the desired values and match types for each field.
+
+        Returns:
+        - list: List of tuples (record_id, record) that match the specified filters.
+        """
         results = []
+
         for record_id, record in self.records.items():
-            if field in record and record[field] == value:
+            match = all(self._compare_values(record.get(field, ""), filter_info) 
+                        for field, filter_info in filters.items())
+            if match:
                 results.append((record_id, record))
+
         return results
+
+    def _compare_values(self, actual_value, filter_info):
+        """
+        Compare actual and expected values based on the specified match type.
+
+        Parameters:
+        - actual_value: The actual value to compare.
+        - filter_info: A dictionary containing the desired value and match type for the comparison.
+
+        Returns:
+        - bool: True if the values match based on the specified match type, False otherwise.
+        """
+        filter_value, match_type = next(iter(filter_info.items()))
+
+        if match_type in ["contains", "exact", "regex"]:
+            if isinstance(actual_value, str) and isinstance(filter_value, str):
+                actual_value = actual_value.lower()
+                filter_value = filter_value.lower()
+            elif isinstance(actual_value, (int, float, bool)) and isinstance(filter_value, (int, float, bool)):
+                pass
+            else:
+                return False
+        elif match_type in ["greater", "less", "equal"]:
+            if not isinstance(actual_value, (int, float)) or not isinstance(filter_value, (int, float)):
+                return False
+        elif match_type == "boolean":
+            if not isinstance(actual_value, bool) or not isinstance(filter_value, bool):
+                return False
+            return actual_value is filter_value
+        else:
+            raise ValueError("Invalid match_type. Supported values are 'contains', 'exact', 'regex', 'greater', 'less', 'equal', or 'boolean'.")
+
+        if match_type == "contains":
+            return filter_value in actual_value
+        elif match_type == "exact":
+            return actual_value == filter_value
+        elif match_type == "regex":
+            try:
+                pattern = re.compile(filter_value, flags=re.IGNORECASE)
+                return bool(pattern.search(str(actual_value)))
+            except re.error:
+                return False
+        elif match_type == "greater":
+            return actual_value > filter_value
+        elif match_type == "less":
+            return actual_value < filter_value
+        elif match_type == "equal":
+            return actual_value == filter_value
+        else:
+            return False
 
     def save_to_file(self, filename):
         # Save the database to a JSON file
