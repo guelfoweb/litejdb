@@ -34,20 +34,10 @@ student_database.save_to_file('student_database.json')
 student_database.load_from_file('student_database.json')
 ```
 
-#### search_records
-```python
-# Search for records with a specific field value
-print (student_database.search_records('age', 18))
-
-# Returns:
-# - list: List of tuples (record_id, record)
-```
-`[('1', {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5})]`
-
 #### filter_records
 ```python
 # Filter records based on multiple fields and their values
-# - match_type (str): The type of match to perform. Can be "contains", "exact", "regex", "greater", "less", or "equal"
+# - match_type (str): The type of match to perform. Can be "contains", "exact", "regex", "boolean", "greater", "less", or "equal"
 filters = {
     "first_name": {"J.*": "regex"},
     "age": {16: "greater"}
