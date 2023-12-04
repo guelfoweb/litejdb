@@ -38,9 +38,22 @@ student_database.load_from_file('student_database.json')
 ```python
 # Search for records with a specific field value
 print (student_database.search_records('age', 18))
+
+# Returns:
+# - list: List of tuples (record_id, record)
 ```
 `[('1', {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5})]`
 
+#### filter_records
+```python
+# Filter records based on multiple fields and their values
+filters = {"age": 18, "last_name": "Doe"}
+print (student_database.filter_records(filters))
+
+# Returns:
+# - list: List of tuples (record_id, record)
+```
+`[('1', {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5})]`
 
 #### fields
 ```python
