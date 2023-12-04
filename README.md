@@ -47,13 +47,17 @@ print (student_database.search_records('age', 18))
 #### filter_records
 ```python
 # Filter records based on multiple fields and their values
-filters = {"age": 18, "last_name": "Doe"}
+# - match_type (str): The type of match to perform. Can be "contains", "exact", "regex", "greater", "less", or "equal"
+filters = {
+    "first_name": {"J.*": "regex"},
+    "age": {16: "greater"}
+}
 print (student_database.filter_records(filters))
 
 # Returns:
 # - list: List of tuples (record_id, record)
 ```
-`[('1', {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5})]`
+`[('1', {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5}), ('2', {'first_name': 'Jane', 'last_name': 'Smith', 'age': 17, 'average_grade': 92.3})]`
 
 #### fields
 ```python
