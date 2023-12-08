@@ -1,9 +1,7 @@
 # LiteJDB (Lite JSON Database)
-LiteJDB is a lightweight database management system designed for simplicity and
-flexibility. It efficiently stores and manages data using JSON serialization, 
-making it easy to work with structured information. LiteJDB offers key features
-such as dynamic field management, quick data retrieval, and seamless integration
-with JSON files. It's an ideal choice for small projects that demand an
+LiteJDB is a lightweight database management system, Pandas based, designed for simplicity and
+flexibility. It efficiently stores and manages data using JSON serialization, making it easy to 
+work with structured information. It's an ideal choice for small projects that demand an 
 uncomplicated yet powerful database solution.
 
 ## Example
@@ -12,106 +10,98 @@ uncomplicated yet powerful database solution.
 from litejdb import LiteJDB
 
 # Initialize a generic database with a given entity name
-student_database = LiteJDB('Student', silent=True) # silent is False by default
+student_database = LiteJDB('student_database.json')
 ```
 
-#### add_record
+#### add()
+Add a new record to the database
 ```python
-# Add a new record to the database
-student_database.add_record(first_name='John', last_name='Doe', age=18, average_grade=85.5)
-student_database.add_record(first_name='Jane', last_name='Smith', age=17, average_grade=92.3)
+student_database.add({"first_name":["John"], "last_name":["Doe"], "age":25})
+student_database.add({"first_name":["Jane"], "last_name":["Smith"], "age":30})
+student_database.add({"first_name":["John"], "last_name":["Smith"], "age":22})
 ```
 
-#### save_to_file
+#### save()
+Save the database to a JSON file
 ```python
-# Save the database to a JSON file
-student_database.save_to_file('student_database.json')
+student_database.save()
 ```
 
-#### load_from_file
+#### load()
+Load the database from a JSON file
 ```python
-# Load the database from a JSON file
-student_database.load_from_file('student_database.json')
+student_database.load('student_database.json')
 ```
 
-#### filter_records
+#### query()
+Filter records based on multiple fields and their values
 ```python
-# Filter records based on multiple fields and their values
-# - match_type (str): The type of match to perform. Can be "contains", "exact", "regex", "boolean", "greater", "less", or "equal"
-filters = {
-    "first_name": {"J.*": "regex"},
-    "age": {16: "greater"}
-}
-print (student_database.filter_records(filters))
-
-# Returns:
-# - list: List of tuples (record_id, record)
+filters = "first_name == 'John' and last_name == 'Doe' and age > 23"
+result = student_database.query(filters)
+print (result)
 ```
-`[('1', {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5}), ('2', {'first_name': 'Jane', 'last_name': 'Smith', 'age': 17, 'average_grade': 92.3})]`
-
-#### fields
+```
+  first_name last_name  age
+0       John       Doe   25
+```
 ```python
-# Show all fields
-print (student_database.fields)
+# Return id list
+result = student_database.query(filters, "get_id")
 ```
-`['first_name', 'last_name', 'age', 'average_grade']`
+`[0]`
 
-#### records
+#### get()
+Retrieve a record by its ID
 ```python
-# Show all records
-print (student_database.records)
+obj = student_database.get(1)
+print (obj)
 ```
-`{'1': {'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5}, '2': {'first_name': 'Jane', 'last_name': 'Smith', 'age': 17, 'average_grade': 92.3}}`
-
-
-#### first_id
+```
+first_name     Jane
+last_name     Smith
+age              30
+Name: 1, dtype: object
+```
+Retrieve first_name field by its ID
 ```python
-# Get first ID
-print (student_database.first_id())
+first_name = student_database.get(1).first_name
+print (first_name)
 ```
-`1`
+`Jane`
 
-#### last_id
+#### update()
+Update/replace field value by its ID
 ```python
-# Get last ID
-print (student_database.last_id())
+student_database.update(0, 'first_name', 'Johnny')
+print (student_database.df().head())
 ```
-`2`
-
-#### memory_usage
-```python
-# Get object size in byte
-print (student_database.memory_usage())
 ```
-`48`
-
-#### add_field
-```python
-# Add a new field to the database for all existing records with an optional default value
-student_database.add_field('email', default_value='')
+  first_name last_name  age
+0     Johnny       Doe   25
+1       Jane     Smith   30
+2       John     Smith   22
 ```
 
-### get_record
+#### delete()
+Delete a record by its ID
 ```python
-# Retrieve a record by its ID
-print (student_database.get_record('1'))
+student_database.delete(1)
 ```
-`{'first_name': 'John', 'last_name': 'Doe', 'age': 18, 'average_grade': 85.5, 'email': ''}`
-
-### update_record
+Delete a records 0 and 1 by their ID
 ```python
-# Update the value of a field for a specific record
-student_database.update_record('1', 'email', 'info@domain.com')
+student_database.delete([0, 1])
 ```
 
-### remove_field
+#### df()
+Use database as Pandas dataframe
 ```python
-# Remove a field from the database for all existing records
-student_database.remove_field('email')
+df = student_database.df().head()
+print (df)
+```
+```
+  first_name last_name  age
+0       John       Doe   25
+1       Jane     Smith   30
+2       John     Smith   22
 ```
 
-### delete_record
-```python
-# Delete a record by its ID
-student_database.delete_record('1')
-```
