@@ -2,4 +2,4 @@
 
 __version__ = "0.1.0"
 
-from .litepdb import LitePDB
+from .litejdb import LiteJDB
