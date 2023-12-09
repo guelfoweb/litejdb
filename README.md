@@ -16,9 +16,9 @@ student_database = LiteJDB('student_database.json')
 #### add()
 Add a new record to the database
 ```python
-student_database.add({"first_name":["John"], "last_name":["Doe"], "age":25})
-student_database.add({"first_name":["Jane"], "last_name":["Smith"], "age":30})
-student_database.add({"first_name":["John"], "last_name":["Smith"], "age":22})
+student_database.add({"first_name": "John", "last_name": "Doe", "age": 25})
+student_database.add({"first_name": "Jane", "last_name": "Smith", "age": 30})
+student_database.add({"first_name": "John", "last_name": "Smith", "age": 22})
 ```
 
 #### save()

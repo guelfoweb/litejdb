@@ -24,12 +24,19 @@ class LiteJDB:
         
         or
 
-        >>> db.add({"first_name":["John"], "last_name": ["Doe"], "age":18, "average_grade": 85.5})
-        >>> db.add({"first_name":["Jane"], "last_name": ["Smith"], "age":17, "average_grade": 92.3})
+        >>> db.add({"first_name": "John", "last_name": "Doe", "age":18, "average_grade": 85.5})
+        >>> db.add({"first_name": "Jane", "last_name": "Smith", "age":17, "average_grade": 92.3})
         """
         
+        # convert scalar to list
+        # fixing the following error: 
+        # ValueError: If using all scalar values, you must pass an index
+        dataset = {}
+        for item in data:
+            dataset.update({item: [data[item]]}) if isinstance(data[item], str) else dataset.update({item: data[item]})
+
         # The ignore_index=True key is used to reset indexes incrementally.
-        self.dataframe = pd.concat([self.dataframe, pd.DataFrame(data)], ignore_index=True)
+        self.dataframe = pd.concat([self.dataframe, pd.DataFrame(dataset)], ignore_index=True)
 
     def delete(self, index):
         """

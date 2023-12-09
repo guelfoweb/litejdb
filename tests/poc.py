@@ -3,9 +3,9 @@ from litejdb import LiteJDB
 # Examples
 student_database = LiteJDB('student_database.json')
 
-student_database.add({"first_name":["John"], "last_name":["Doe"], "age":25})
-student_database.add({"first_name":["Jane"], "last_name":["Smith"], "age":30})
-student_database.add({"first_name":["John"], "last_name":["Smith"], "age":22})
+student_database.add({"first_name": "John", "last_name": "Doe", "age": 25})
+student_database.add({"first_name": "Jane", "last_name": "Smith", "age": 30})
+student_database.add({"first_name": "John", "last_name": "Smith", "age": 22})
 
 filters = "first_name == 'John' and last_name == 'Doe' and age > 23"
 
