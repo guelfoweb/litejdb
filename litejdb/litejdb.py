@@ -120,6 +120,17 @@ class LiteJDB:
         """
         return self.dataframe.isnull().sum().sort_values(ascending=False)
 
+    def fields(self):
+        """
+        returna list of fields
+        
+        >>> fields = db.fields()
+        >>> print (fields)
+
+        ['first_name', 'last_name', 'age']
+        """
+        return self.dataframe.columns.values.tolist()
+
     def query(self, query, get_id=False):
         """
         >>> query = "first_name == 'John' or last_name == 'Smith'"

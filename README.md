@@ -33,6 +33,16 @@ Load the database from a JSON file
 student_database.load('student_database.json')
 ```
 
+#### fields()
+Return the list of all fields
+```python
+fields = student_database.fields()
+print (fields)
+```
+```
+['first_name', 'last_name', 'age']
+```
+
 #### query()
 Filter records based on multiple fields and their values
 ```python

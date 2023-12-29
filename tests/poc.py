@@ -43,3 +43,7 @@ print (student_database.df().head())
 1       Jane     Smith   30
 2       John     Smith   22
 """
+
+fields = student_database.fields()
+print (fields)
+# ['first_name', 'last_name', 'age']
