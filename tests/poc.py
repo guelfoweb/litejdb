@@ -47,3 +47,11 @@ print (student_database.df().head())
 fields = student_database.fields()
 print (fields)
 # ['first_name', 'last_name', 'age']
+
+for index, row in student_database.df().iterrows():
+  print (row['first_name'])
+"""
+Johnny
+Jane
+John
+"""

@@ -30,7 +30,7 @@ student_database.save()
 #### load()
 Load the database from a JSON file
 ```python
-student_database.load('student_database.json')
+student_database.load()
 ```
 
 #### fields()
@@ -113,5 +113,16 @@ print (df)
 0       John       Doe   25
 1       Jane     Smith   30
 2       John     Smith   22
+```
+
+Iterate over rows
+```python
+for index, row in student_database.df().iterrows():
+  print (row['first_name'])
+```
+```
+Johnny
+Jane
+John
 ```
 

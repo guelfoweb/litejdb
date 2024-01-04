@@ -7,7 +7,7 @@ class LiteJDB:
     def __init__(self, filename):
         """
         # Initialize a generic database
-        db = LiteJDB("database.pkl")
+        db = LiteJDB("database.json")
         """
         self.filename  = filename
         self.dataframe = pd.DataFrame()
@@ -28,12 +28,17 @@ class LiteJDB:
         >>> db.add({"first_name": "Jane", "last_name": "Smith", "age":17, "average_grade": 92.3})
         """
         
-        # convert scalar to list
-        # fixing the following error: 
+        # convert scalar to list and fix the following errors:
         # ValueError: If using all scalar values, you must pass an index
+        # ValueError: All arrays must be of the same length
         dataset = {}
         for item in data:
-            dataset.update({item: [data[item]]}) if isinstance(data[item], str) else dataset.update({item: data[item]})
+            if isinstance(data[item], str) or isinstance(data[item], list):
+                dataset.update({item: [data[item]]})
+            elif isinstance(data[item], dict):
+                dataset.update({item: {data[item]}})
+            else:
+                dataset.update({item: data[item]})
 
         # The ignore_index=True key is used to reset indexes incrementally.
         self.dataframe = pd.concat([self.dataframe, pd.DataFrame(dataset)], ignore_index=True)
@@ -157,12 +162,12 @@ class LiteJDB:
         """
         self.dataframe.to_json(self.filename)
 
-    def load(self, filename):
+    def load(self):
         """
-        db.load("database.json")
+        db.load()
         """
         try:
-            self.dataframe = pd.read_json(filename)
+            self.dataframe = pd.read_json(self.filename)
         except FileNotFoundError:
             self.dataframe = pd.DataFrame()
 
