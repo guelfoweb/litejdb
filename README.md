@@ -1,8 +1,5 @@
 # LiteJDB (Lite JSON Database)
-LiteJDB is a lightweight database management system, Pandas based, designed for simplicity and
-flexibility. It efficiently stores and manages data using JSON serialization, making it easy to 
-work with structured information. It's an ideal choice for small projects that demand an 
-uncomplicated yet powerful database solution.
+LiteJDB is a lightweight database management system prototype, Pandas based, designed for simplicity and flexibility. It efficiently stores and manages data using JSON serialization, making it easy to work with structured information. It's a personal experiment for small projects that require a quick and easy solution for data storage and search.
 
 ## Example
 
